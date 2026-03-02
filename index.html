@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anastasia_booster | Indépendant</title>
+    <style>
+        body { background: #050505; color: #bc13fe; font-family: 'Courier New', monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        .main { width: 90%; max-width: 400px; padding: 30px; border: 2px solid #bc13fe; border-radius: 15px; background: #000; box-shadow: 0 0 25px #bc13fe66; text-align: center; z-index: 10; }
+        h1 { font-size: 20px; letter-spacing: 3px; text-shadow: 0 0 10px #bc13fe; margin-bottom: 20px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #0a0a0a; border: 1px solid #bc13fe; color: #fff; border-radius: 5px; outline: none; }
+        button { width: 100%; padding: 15px; background: #bc13fe; color: #000; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: #fff; box-shadow: 0 0 20px #fff; transform: scale(1.02); }
+        #terminal { background: #000; border: 1px solid #333; height: 150px; margin-top: 15px; padding: 10px; font-size: 10px; color: #0f0; text-align: left; overflow-y: auto; line-height: 1.4; }
+        .glitch { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1 class="glitch">ANASTASIA_BOOSTER v2.0</h1>
+        <input type="text" id="link" placeholder="Lien du profil ou post..." autocomplete="off">
+        <select id="mode">
+            <option value="VUES">BOOST VUES (1000+)</option>
+            <option value="LIKES">BOOST LIKES (1000+)</option>
+            <option value="FOLLOWERS">BOOST FOLLOWERS (1000+)</option>
+        </select>
+        <button id="btn" onclick="launch()">DÉMARRER L'INJECTION</button>
+        <div id="terminal">> Prêt pour le protocole...</div>
+    </div>
+
+    <script>
+        const term = document.getElementById('terminal');
+        function log(msg, color = "#0f0") {
+            const span = document.createElement('div');
+            span.style.color = color;
+            span.innerHTML = `> ${msg}`;
+            term.appendChild(span);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        async function launch() {
+            const url = document.getElementById('link').value;
+            if(!url) return alert("Veuillez entrer un lien valide.");
+            
+            document.getElementById('btn').disabled = true;
+            log("Initialisation du noyau Anastasia...", "#bc13fe");
+            
+            // Simulation de chargement visuel
+            setTimeout(() => log("Recherche de failles sur les serveurs API..."), 500);
+            setTimeout(() => log("Connexion aux proxies résidentiels... [OK]"), 1200);
+            
+            try {
+                const response = await fetch('/api/index', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ url: url, type: document.getElementById('mode').value })
+                });
+                
+                const data = await response.json();
+                
+                setTimeout(() => {
+                    log(data.status, "#bc13fe");
+                    log(data.message, "#fff");
+                    log("Injection terminée. Résultat visible sous 24h-72h.", "#0f0");
+                    document.getElementById('btn').disabled = false;
+                }, 2500);
+
+            } catch (err) {
+                log("ERREUR DE PROTOCOLE : Serveur injoignable", "red");
+                document.getElementById('btn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
